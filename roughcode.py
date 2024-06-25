@@ -65,7 +65,7 @@ def apuestasMitades(listFrom_DataExtracted, ListadeApuestas):
     elif awayteam_1stHalf_lastFive >= 4:
         over05_1stHalf += 1.5
         
-    ListadeApuestas.append(over05_1stHalf)
+    ListadeApuestas["Over 0.5 1st half"]= over05_1stHalf
 
 
 
