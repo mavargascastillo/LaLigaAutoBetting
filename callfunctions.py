@@ -1,12 +1,12 @@
 import pandas as pd
 
-import roughcode
+import funciones
 
 todasApuestas = {}
 path = r"C:\Users\MV310485\Documents\Personal\AlgoApuestas\Goles.xlsx"
 
-dataExtracted = roughcode.dataExtraction(path, "Alaves", "Almeria")
+dataExtracted = funciones.dataExtraction(path, "Alaves", "Almeria")
 
-roughcode.apuestasMitades(dataExtracted, todasApuestas)
+funciones.apuestasMitades(dataExtracted, todasApuestas)
 print(todasApuestas)
 
