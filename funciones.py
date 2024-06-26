@@ -49,7 +49,7 @@ def dataExtraction(filepath, hometeam_name, awayteam_name):
 
 def apuestasMitades(listFrom_DataExtracted, apuestasPartido):
     ''' Asigna un valor a las tres apuestas de mitades según los datos extraídos del DataSet de excel'''
-    
+
     over05_1stHalf = 0
     under15_1stHalf = 0
     over05_2ndHalf = 0
@@ -181,7 +181,7 @@ def group_random_pairs(list_of_dictionaries_ApuestasSimples):
 
     # Create pairs from the shuffled list
     paired_list = []
-    for i in range(0, len(list_of_dictionaries_ApuestasSimples):
+    for i in range(0, len(list_of_dictionaries_ApuestasSimples)):
         pair = (list_of_dictionaries_ApuestasSimples[i], list_of_dictionaries_ApuestasSimples[i+1])
         paired_list.append(pair)
     return paired_list
