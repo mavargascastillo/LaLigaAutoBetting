@@ -1,4 +1,7 @@
 import pandas as pd
+import copy
+import random
+
 
 def dataExtraction(filepath, hometeam_name, awayteam_name):
     ''' Extraer informacion que va a ser utilizada en el resto de funciones '''
@@ -45,6 +48,8 @@ def dataExtraction(filepath, hometeam_name, awayteam_name):
 
 
 def apuestasMitades(listFrom_DataExtracted, apuestasPartido):
+    ''' Asigna un valor a las tres apuestas de mitades según los datos extraídos del DataSet de excel'''
+    
     over05_1stHalf = 0
     under15_1stHalf = 0
     over05_2ndHalf = 0
@@ -135,47 +140,48 @@ def apuestasJornada(filepath, paresPartidos, jornada):
         print('-----------------------------')  
 
 
-#def placeBets(x, y, z):
- #   ''' Procesa las apuestas de cada partido, elige la apuesta individual, y la empareja con la apuesta de otro partido'''
-'''    
-def find_better_bet(copiaApuestasPartido, apuestasPartido, n=1):
-    apuestaCombinada = {}
-    apuestaCombinada[f"Match {n}"] = apuestasPartido["Match"]
-    better_bet = max(apuestasPartido, key=apuestasPartido.get)
-    quoteApuesta = 1.37 #falta construir dataset de quotes y programar la recogida de informacion
-    apuestaCombinada[better_bet] = quoteApuesta
-    return apuestaCombinada
 
-def process_bets(list_of_dicts):
+def find_better_bet(dictBetsMatches, copiaDictBetsMatches, n=1):
+    ''' Finds the highest ranked bet of a match and its corresponding quote and creates a dictionary with them'''
+
+    apuestaSimple = {}
+    better_bet = max(copiaDictBetsMatches, key=copiaDictBetsMatches.get)
+    quoteApuesta = 1.37 #falta construir dataset de quotes y programar la recogida de informacion
+    apuestaSimple[f"Match {n}"] = dictBetsMatches["Match"]
+    apuestaSimple[better_bet] = quoteApuesta
+    return apuestaSimple
+
+def process_bets(listDicts_TresApuestasSimples):
+    ''' Gets the highest ranked bet of each match and then adds them to a list where all bets are stored'''
+
+    # Create a deep copy of listDicts_TresApuestasSimples to avoid modifying the original list
+    copy_listDicts_TresApuestasSimples = copy.deepcopy(listDicts_TresApuestasSimples)
     
-    copy_list_of_dicts = list_of_dicts[:]
-    for dictionary in copy_list_of_dicts:
-        if "match" in dictionary:
-            del dictionary["match"]
+    # Remove 'Match' key from each dictionary in the copied list
+    for dictionary in copy_listDicts_TresApuestasSimples:
+        if "Match" in dictionary:
+            del dictionary["Match"]
 
     results = []
-    for i, apuestasPartido in enumerate(copy_list_of_dicts, 1):
-        result = find_better_bet(copy_list_of_dicts, list_of_dicts, n = i)
+    for i, original_dict in enumerate(listDicts_TresApuestasSimples, 1):
+        result = find_better_bet(original_dict, copy_listDicts_TresApuestasSimples[i-1], n=i)
         results.append(result)
+    
     return results
-'''
 
-def find_better_bet2(apuestasJornada, n=1):
-    copiaApuestasJornada = apuestasJornada[:]
-    for dictionary in apuestasJornada:
-        apuestaCombinada = {}
-        apuestaCombinada[f"Match {n}"] = dictionary["Match"]
-        for dictionary2 in copiaApuestasJornada:
-            if "Match" in dictionary:
-                del dictionary["Match"]
+def group_random_pairs(list_of_dictionaries_ApuestasSimples):
+    '''This function takes the list of apuestas simples and groups them'''
 
-            better_bet = max(dictionary2, key=dictionary2.get)
-            quoteApuesta = 1.37 #falta construir dataset de quotes y programar la recogida de informacion
-            apuestaCombinada[better_bet] = quoteApuesta
-            print(f'Combinada {n}: ')
-            print(apuestaCombinada)
-            print('-----------------------------')
-            n += 1
-            
+    # Ensure the list has an even number of elements
+    if len(list_of_dictionaries_ApuestasSimples) % 2 != 0:
+        raise ValueError("The list must contain an even number of dictionaries.")
 
+    # Shuffle the list to ensure random pairing
+    random.shuffle(list_of_dictionaries_ApuestasSimples)
 
+    # Create pairs from the shuffled list
+    paired_list = []
+    for i in range(0, len(list_of_dictionaries_ApuestasSimples):
+        pair = (list_of_dictionaries_ApuestasSimples[i], list_of_dictionaries_ApuestasSimples[i+1])
+        paired_list.append(pair)
+    return paired_list
