@@ -12,3 +12,7 @@ Por el momento, he creado ==cuatro funciones distintas==, cuyas funciones son la
 - Utilizar las tres funciones para reiterar sobre los 10 partidos que cada jornada contiene
 
 Ahora mismo falta construir una función para crear las combinadas de apuestas. Una vez lo tenga, creo que ya puedo proceder a crear el backtester.
+
+**Update 26/06**
+
+He terminado de refinar la estrategia piloto. Ahora mismo las funciones son capaces de elegir la apuesta con la puntuación más alta de cada partido, y agruparlas en grupos de dos. Falta crear una última función que combine estas dos apuestas simples en una única combinada. Alternativamente, de esto puede encargarse el backtester, aunque creo que será más efectivo el primer método. También he limpiado las funciones, es decir, he incluido descripciones detalladas, comentarios, e intentado utilizar nombres de argumentos y variables lo menos confusos posibles.
