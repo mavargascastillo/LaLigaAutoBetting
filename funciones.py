@@ -114,31 +114,68 @@ def extraerEquipos(filepath, paresPartidos):
 
 
 
-def apuestasJornada(filepath, paresPartidos, apuestasPartido, apuestasJornada):
-    ''' Loop over the team pairs and apply the functions dataExtraction & apuestasMitades'''
+def apuestasJornada(filepath, paresPartidos, jornada):
+    ''' Loop over the team pairs and apply the functions dataExtraction & apuestasMitades. It also appends all of
+    the bets to a list
+    paresPartidos = type(list) ; list of pairs ; teams that play against each other
+    apuestasPartido = type(dictionary) ; will be filled with the three bets for each match
+    jornada = type(list) ; will be filled with each apuestasPartido
+    '''
 
     for team1, team2 in paresPartidos:
         TeamsData = dataExtraction(filepath, team1, team2)
         matchname = f"{team1} VS {team2}"
-        #hacer que el primer key-value pair del diccionario sea el nombre del partido
-        apuestasPartido["Match: "] = matchname
+        #Crear nuevo diccionario para cada partido
+        apuestasPartido = {"Match" : matchname} 
         #completar el diccionario de apuestas de un partido individual
         apuestasMitades(TeamsData, apuestasPartido)
-        apuestasJornada.append(apuestasPartido)
+        jornada.append(apuestasPartido)
         print(f'Processed data para el partido entre {team1} y {team2}: ')
         print(apuestasPartido)
         print('-----------------------------')  
 
 
-def placeBets(x, y, z):
-    ''' Procesa las apuestas de cada partido, elige la apuesta individual, y la empareja con la apuesta de otro partido'''
-    
-    def find_better_bet(apuestasPartido):
-        apuestaCombinada = {}
-        better_bet = max(apuestasPartido, key=apuestasPartido.get)
-        quoteApuesta = 1.37 #falta construir dataset de quotes y programar la recogida de informacion
-        apuestaCombinada[better_bet] = quoteApuesta
-        return apuestaCombinada
+#def placeBets(x, y, z):
+ #   ''' Procesa las apuestas de cada partido, elige la apuesta individual, y la empareja con la apuesta de otro partido'''
+'''    
+def find_better_bet(copiaApuestasPartido, apuestasPartido, n=1):
+    apuestaCombinada = {}
+    apuestaCombinada[f"Match {n}"] = apuestasPartido["Match"]
+    better_bet = max(apuestasPartido, key=apuestasPartido.get)
+    quoteApuesta = 1.37 #falta construir dataset de quotes y programar la recogida de informacion
+    apuestaCombinada[better_bet] = quoteApuesta
+    return apuestaCombinada
 
-    for i, apuestasPartido in enumerate(apuestasJornada):
-        mejoresApuestas = find_better_bet(apuestasPartido)
+def process_bets(list_of_dicts):
+    
+    copy_list_of_dicts = list_of_dicts[:]
+    for dictionary in copy_list_of_dicts:
+        if "match" in dictionary:
+            del dictionary["match"]
+
+    results = []
+    for i, apuestasPartido in enumerate(copy_list_of_dicts, 1):
+        result = find_better_bet(copy_list_of_dicts, list_of_dicts, n = i)
+        results.append(result)
+    return results
+'''
+
+def find_better_bet2(apuestasJornada, n=1):
+    copiaApuestasJornada = apuestasJornada[:]
+    for dictionary in apuestasJornada:
+        apuestaCombinada = {}
+        apuestaCombinada[f"Match {n}"] = dictionary["Match"]
+        for dictionary2 in copiaApuestasJornada:
+            if "Match" in dictionary:
+                del dictionary["Match"]
+
+            better_bet = max(dictionary2, key=dictionary2.get)
+            quoteApuesta = 1.37 #falta construir dataset de quotes y programar la recogida de informacion
+            apuestaCombinada[better_bet] = quoteApuesta
+            print(f'Combinada {n}: ')
+            print(apuestaCombinada)
+            print('-----------------------------')
+            n += 1
+            
+
+

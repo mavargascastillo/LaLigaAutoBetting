@@ -2,10 +2,11 @@ import pandas as pd
 
 import funciones as fx
 
-path = r"C:\Users\MV310485\Documents\Personal\AlgoApuestas\Goles.xlsx"
+path = r"/workspace/LaLigaAutoBetting/Goles.xlsx"
 betsJornada = []
 betsMatches = {}
 pairs = []
 
 fx.extraerEquipos(path, pairs)
-fx.apuestasJornada(path, pairs, betsMatches, betsJornada)
+print(pairs)
+fx.apuestasJornada(path, pairs, betsJornada)
