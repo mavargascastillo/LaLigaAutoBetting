@@ -152,61 +152,6 @@ def find_better_bet(dictBetsMatches, copiaDictBetsMatches, n=1):
     apuestaSimple["Cuota"] = quoteApuesta
     return apuestaSimple
 
-def process_bets(listDicts_TresApuestasSimples):
-    ''' Gets the highest ranked bet of each match and then adds them to a list where all bets are stored'''
-
-    # Create a deep copy of listDicts_TresApuestasSimples to avoid modifying the original list
-    copy_listDicts_TresApuestasSimples = copy.deepcopy(listDicts_TresApuestasSimples)
-    
-    # Remove 'Match' key from each dictionary in the copied list
-    for dictionary in copy_listDicts_TresApuestasSimples:
-        if "Match" in dictionary:
-            del dictionary["Match"]
-
-    results = []
-    for i, original_dict in enumerate(listDicts_TresApuestasSimples, 1):
-        result = find_better_bet(original_dict, copy_listDicts_TresApuestasSimples[i-1], n=i)
-        results.append(result)
-    
-    return results
-
-def group_random_pairs(list_of_dictionaries_ApuestasSimples):
-    '''This function takes the list of apuestas simples and groups them'''
-
-    # Ensure the list has an even number of elements
-    if len(list_of_dictionaries_ApuestasSimples) % 2 != 0:
-        raise ValueError("The list must contain an even number of dictionaries.")
-
-    # Shuffle the list to ensure random pairing
-    random.shuffle(list_of_dictionaries_ApuestasSimples)
-
-    # Create combinadas from the shuffled list
-    combinadas = []
-    for i in range(0, len(list_of_dictionaries_ApuestasSimples), 2):
-        dict1 = list_of_dictionaries_ApuestasSimples[i]
-        dict2 = list_of_dictionaries_ApuestasSimples[i + 1]
-        
-        # Calculate the product of the first two values
-        value1 = dict1['Cuota']
-        value2 = dict2['Cuota']
-        # Debug: Print values to understand their types
-        print(f"Value1: {value1} ({type(value1)})")
-        print(f"Value2: {value2} ({type(value2)})")
-
-        cuota_combinada = value1 * value2
-        
-        # Add the new element to the pair
-        combinada = (
-            dict1,
-            dict2,
-            {"Cuota Combinada": cuota_combinada}
-        )
-        
-        combinadas.append(combinada)
-    
-    return combinadas
-
-
 def random_pairing(list_of_dictionaries):
     '''This function randomly pairs dictionaries in a list.'''
     
