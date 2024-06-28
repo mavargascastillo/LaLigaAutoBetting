@@ -148,7 +148,8 @@ def find_better_bet(dictBetsMatches, copiaDictBetsMatches, n=1):
     better_bet = max(copiaDictBetsMatches, key=copiaDictBetsMatches.get)
     quoteApuesta = 1.37 #falta construir dataset de quotes y programar la recogida de informacion
     apuestaSimple[f"Match {n}"] = dictBetsMatches["Match"]
-    apuestaSimple[better_bet] = quoteApuesta
+    apuestaSimple["Apuesta"] = better_bet
+    apuestaSimple["Cuota"] = quoteApuesta
     return apuestaSimple
 
 def process_bets(listDicts_TresApuestasSimples):
@@ -179,9 +180,73 @@ def group_random_pairs(list_of_dictionaries_ApuestasSimples):
     # Shuffle the list to ensure random pairing
     random.shuffle(list_of_dictionaries_ApuestasSimples)
 
+    # Create combinadas from the shuffled list
+    combinadas = []
+    for i in range(0, len(list_of_dictionaries_ApuestasSimples), 2):
+        dict1 = list_of_dictionaries_ApuestasSimples[i]
+        dict2 = list_of_dictionaries_ApuestasSimples[i + 1]
+        
+        # Calculate the product of the first two values
+        value1 = dict1['Cuota']
+        value2 = dict2['Cuota']
+        # Debug: Print values to understand their types
+        print(f"Value1: {value1} ({type(value1)})")
+        print(f"Value2: {value2} ({type(value2)})")
+
+        cuota_combinada = value1 * value2
+        
+        # Add the new element to the pair
+        combinada = (
+            dict1,
+            dict2,
+            {"Cuota Combinada": cuota_combinada}
+        )
+        
+        combinadas.append(combinada)
+    
+    return combinadas
+
+
+def random_pairing(list_of_dictionaries):
+    '''This function randomly pairs dictionaries in a list.'''
+    
+    # Ensure the list has an even number of elements
+    if len(list_of_dictionaries) % 2 != 0:
+        raise ValueError("The list must contain an even number of dictionaries.")
+    
+    # Shuffle the list to ensure random pairing
+    random.shuffle(list_of_dictionaries)
+    
     # Create pairs from the shuffled list
     paired_list = []
-    for i in range(0, len(list_of_dictionaries_ApuestasSimples), 2):
-        pair = (list_of_dictionaries_ApuestasSimples[i], list_of_dictionaries_ApuestasSimples[i+1])
+    for i in range(0, len(list_of_dictionaries), 2):
+        pair = (list_of_dictionaries[i], list_of_dictionaries[i + 1])
         paired_list.append(pair)
+    
     return paired_list
+
+def calculate_combinadas(paired_list):
+    '''This function calculates combined odds for pairs of dictionaries.'''
+    
+    combinadas = []
+    for pair in paired_list:
+        dict1, dict2 = pair
+        
+        # Extract odds values (assuming 'Cuota' key exists in both dictionaries)
+        value1 = dict1['Cuota']
+        value2 = dict2['Cuota']
+        
+        # Calculate combinada odds
+        cuota_combinada = value1 * value2
+        
+        # Create combinada
+        combinada = (
+            dict1,
+            dict2,
+            {'Cuota Combinada': cuota_combinada}
+        )
+        
+        combinadas.append(combinada)
+    
+    return combinadas
+
