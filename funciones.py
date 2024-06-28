@@ -181,7 +181,7 @@ def group_random_pairs(list_of_dictionaries_ApuestasSimples):
 
     # Create pairs from the shuffled list
     paired_list = []
-    for i in range(0, len(list_of_dictionaries_ApuestasSimples)):
+    for i in range(0, len(list_of_dictionaries_ApuestasSimples), 2):
         pair = (list_of_dictionaries_ApuestasSimples[i], list_of_dictionaries_ApuestasSimples[i+1])
         paired_list.append(pair)
     return paired_list
