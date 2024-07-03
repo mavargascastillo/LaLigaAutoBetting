@@ -22,3 +22,8 @@ He terminado de refinar la estrategia piloto. Ahora mismo las funciones son capa
 He experimentado en agrupar las funciones por clases. Estos experimentos se ven reflejados en el archivo "classes.py". He logrado de manera efectiva recoger en una clase las funciones que se encargan de recolectar datos. Sin embargo, se me ha complicado agrupar el resto de funciones por clases. Considero que debo familiarizarme más con Python para que este proyecto se me facilite aún más. 
 Tras los intentos, he vuelto al módulo de funciones y he agregado una función para terminar de procesar las combinadas. Por lo tanto, hay una función que agrupa de forma aleatorio los diccionarios de apuestas simples en pares, y hay otra función que calcula la cuota combinada y creo tuples de tríos con las dos apuestas más la combinada. 
 Si no me equivoco, se podría proceder a crear un backtester piloto para ensayar la estrategia piloto. No obstante, creo que voy a enfocarme en profundizar mis conocimientos/habilidades de Python.
+
+**Update 03/07**
+
+He limpiado todos los archivos de funciones que habían. La clase encargada de recolectar datos ahora se llama DataHandler, y se encuentra en una carpeta aparte dedicada a clases. A continuación, he recogido todas las funciones dedicadas a la creación de apuestas simples y combinadas en un mismo módulo, adaptándolo para la correcta implementación de la clase DataHandler. Dicho archivo es "betfunctions.py".
+Nuevamente, considero que el próximo paso consiste en el desarrollo del backtester piloto. 
